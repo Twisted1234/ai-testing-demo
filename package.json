@@ -1,0 +1,16 @@
+{
+  "name": "applitoolseyestest",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@applitools/eyes-playwright": "^1.43.0",
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.9",
+    "http-server": "^14.1.1"
+  }
+}

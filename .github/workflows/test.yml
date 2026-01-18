@@ -1,0 +1,29 @@
+name: AI Testing Workflow
+
+on: [push]
+
+jobs:
+  ai-visual-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install Dependencies
+        run: npm ci
+        
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Start Local Webserver
+        # Startet einen simplen Server im Hintergrund (&) auf Port 8080
+        run: npx http-server . -p 8080 & 
+        
+      - name: Run AI Tests
+        env:
+          APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
+        run: npx playwright test
