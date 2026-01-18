@@ -1,9 +1,9 @@
-name: AI Testing Workflow
+name: AI Testing Presentation
 
 on: [push]
 
 jobs:
-  ai-visual-test:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,9 +19,8 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Start Local Webserver
-        # Startet einen simplen Server im Hintergrund (&) auf Port 8080
-        run: npx http-server . -p 8080 & 
+      # HIER IST DIE MAGIE: Wir brauchen keinen Server-Start-Befehl mehr via Skript,
+      # weil deine playwright.config.js das jetzt automatisch macht!
         
       - name: Run AI Tests
         env:
