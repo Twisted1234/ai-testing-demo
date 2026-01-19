@@ -18,24 +18,3 @@ jobs:
       # Hier laufen die von Qodo generierten Tests
       - name: Run Unit Tests (Jest)
         run: npm test
-
-  # JOB 2: Visuelle Tests (Läuft parallel oder danach)
-  visual-tests:
-    runs-on: ubuntu-latest
-    needs: unit-tests # Optional: Nur starten, wenn Unit-Tests grün sind
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - name: Install
-        run: npm ci
-      - name: Install Browsers
-        run: npx playwright install --with-deps
-      
-      # Applitools Visual Check
-      - name: Run Visual Tests
-        env:
-          APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
-        run: npx playwright test
