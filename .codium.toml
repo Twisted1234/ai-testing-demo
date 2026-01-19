@@ -1,0 +1,4 @@
+[tests]
+framework = "jest"
+utility_library = "none" # Wir brauchen keine extra Libs
+javascript_flavor = "commonjs" # Das erzwingt 'require' statt 'import'
