@@ -22,8 +22,7 @@
       "**/*.test.js" 
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/tests/" 
+      "/node_modules/"
     ]
   }
 }
