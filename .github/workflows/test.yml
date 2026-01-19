@@ -1,28 +1,41 @@
-name: AI Testing Presentation
+name: Full AI Testing Suite
 
 on: [push]
 
 jobs:
-  test:
+  # JOB 1: Logik Tests (Geht super schnell)
+  unit-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-          
-      - name: Install Dependencies
+      - name: Install
         run: npm ci
-        
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+      
+      # Hier laufen die von Qodo generierten Tests
+      - name: Run Unit Tests (Jest)
+        run: npm test
 
-      # HIER IST DIE MAGIE: Wir brauchen keinen Server-Start-Befehl mehr via Skript,
-      # weil deine playwright.config.js das jetzt automatisch macht!
-        
-      - name: Run AI Tests
+  # JOB 2: Visuelle Tests (Läuft parallel oder danach)
+  visual-tests:
+    runs-on: ubuntu-latest
+    needs: unit-tests # Optional: Nur starten, wenn Unit-Tests grün sind
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Install
+        run: npm ci
+      - name: Install Browsers
+        run: npx playwright install --with-deps
+      
+      # Applitools Visual Check
+      - name: Run Visual Tests
         env:
           APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
         run: npx playwright test

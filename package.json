@@ -2,7 +2,10 @@
   "name": "applitoolseyestest",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+  "test": "jest",
+  "test:e2e": "playwright test"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
