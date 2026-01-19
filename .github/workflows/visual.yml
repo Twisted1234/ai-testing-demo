@@ -1,0 +1,27 @@
+name: Visual Tests (Applitools)
+
+on: [push]
+
+jobs:
+  visual-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install Dependencies
+        run: npm ci
+        
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      # Hier führen wir NUR Playwright aus
+      - name: Run Applitools Check
+        env:
+          # Nur hier wird der Key benötigt!
+          APPLITOOLS_API_KEY: ${{ secrets.APPLITOOLS_API_KEY }}
+        run: npx playwright test

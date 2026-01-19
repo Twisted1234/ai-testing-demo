@@ -1,20 +1,21 @@
-name: Full AI Testing Suite
+name: Unit Tests (Logic)
 
 on: [push]
 
 jobs:
-  # JOB 1: Logik Tests (Geht super schnell)
-  unit-tests:
+  logic-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '18'
-      - name: Install
+          
+      - name: Install Dependencies
         run: npm ci
-      
-      # Hier laufen die von Qodo generierten Tests
-      - name: Run Unit Tests (Jest)
+
+      # Hier führen wir NUR Jest aus
+      - name: Run Jest Tests
         run: npm test
