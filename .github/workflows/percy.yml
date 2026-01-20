@@ -1,45 +1,31 @@
-name: Visual Regression Testing # Name des Workflows (erscheint in der Actions-Übersicht)
+name: Visual Regression Testing
 
-# 1. Trigger Definition (Muss ganz links stehen, ohne Einrückung)
 on:
   push:
     branches:
       - main
-  pull_request: # Optional: Testet auch bei Pull Requests
-    branches:
-      - main
 
-# 2. Jobs Definition
 jobs:
-  test-visual: # Eindeutige ID für diesen Job
-    name: Percy Visual Test
+  test-visual:
     runs-on: ubuntu-latest
     
     steps:
-      # Code aus dem Repo holen
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Node.js installieren (Node 14 ist veraltet, besser 18 oder 20 nutzen)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # Abhängigkeiten installieren
-      - name: Install Dependencies
-        run: npm install
-
-      # Percy CLI installieren (falls nicht schon in package.json)
+      # Wir brauchen nur das Percy Tool, keine anderen Dependencies
       - name: Install Percy CLI
         run: npm install --save-dev @percy/cli
 
-      # WICHTIG: Erst bauen, dann snapshotten (falls nötig)
-      # Wenn du eine statische Seite hast, muss der Ordner existieren.
-      # Beispiel: npm run build
+      # WICHTIG: Kein "npm run build" nötig!
       
-      # Percy Snapshot ausführen
+      # Der Punkt "." bedeutet: Nimm die index.html aus dem Hauptverzeichnis
       - name: Run Percy Snapshot
-        run: npx percy snapshot _site/ 
+        run: npx percy snapshot . 
         env:
           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
